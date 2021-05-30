@@ -6,8 +6,8 @@ import {
   useEffect
 } from 'react'
 import { toast } from 'react-toastify'
-import { api } from '../services/api'
 import { Product, Stock } from './useCartType'
+import axios from 'axios'
 
 interface CartProviderProps {
   children: ReactNode
@@ -49,7 +49,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       )
       const currentAmount = productExists ? productExists.amount : 0
       const desiredAmount = currentAmount + 1
-      const { id, amount: availableAmount } = await api
+      const { id, amount: availableAmount } = await axios
         .get(`api/stock/${productId}`)
         .then(response => {
           return response.data
@@ -63,7 +63,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       if (productExists) {
         productExists.amount = desiredAmount
       } else {
-        const product = await api.get(`api/products/${productId}`)
+        const product = await axios.get(`api/products/${productId}`)
         const newProduct = { ...product.data, amount: desiredAmount }
         updatedCart.push(newProduct)
       }
@@ -104,7 +104,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return
       }
 
-      const stock = await api.get(`api/stock/${productId}`)
+      const stock = await axios.get(`api/stock/${productId}`)
       const stockAmount = stock.data.amount
 
       if (amount > stockAmount) {

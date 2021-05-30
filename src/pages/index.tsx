@@ -5,9 +5,9 @@ import { MdAddShoppingCart } from 'react-icons/md'
 import Header from '../components/Header'
 
 import { ProductList } from '../styles/pages/Home'
-import { api } from '../services/api'
 import { formatPrice } from '../util/format'
 import { useCart } from '../hooks/useCart'
+import axios from 'axios'
 
 interface Product {
   id: number
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
   }, {} as CartItemsAmount)
 
   const loadProducts = useCallback(async () => {
-    const response = await api.get<Product[]>('/api/products')
+    const response = await axios.get<Product[]>('/api/products')
     const responseData = response.data.map(product => {
       return {
         ...product,

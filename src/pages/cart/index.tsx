@@ -5,8 +5,8 @@ import {
   MdRemoveCircleOutline
 } from 'react-icons/md'
 
-import { api } from '../../services/api'
 import Header from '../../components/Header'
+import axios from 'axios'
 
 import { useCart } from '../../hooks/useCart'
 import { formatPrice } from '../../util/format'
@@ -66,7 +66,7 @@ const Cart: React.FC = () => {
       +data.number,
       data.postalCode
     )
-    const response = await api.post('api/create-preference', bodyData)
+    const response = await axios.post('api/create-preference', bodyData)
     const responseData = response.data
     window.location.replace(response.data)
     console.log(responseData, 'check')
